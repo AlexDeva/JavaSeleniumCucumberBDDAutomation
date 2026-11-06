@@ -24,9 +24,9 @@ mvn test
 Run a tag or a single application:
 
 ```shell
-mvn test -Dcucumber.filter.tags="@smoke"
-mvn test -Dcucumber.filter.tags="@swag-labs"
-mvn test -Dcucumber.filter.tags="@playground"
+mvn test "-Dcucumber.filter.tags=@smoke"
+mvn test "-Dcucumber.filter.tags=@swag-labs"
+mvn test "-Dcucumber.filter.tags=@playground"
 ```
 
 Choose a browser, enable headless mode, or override the explicit-wait timeout:
@@ -60,6 +60,7 @@ Failed scenarios attach a PNG screenshot to the Cucumber scenario and save a cop
 
 ```text
 src/test/java/com/example/ui/
+  context/     Scenario-scoped values shared between step definitions
   hooks/        Scenario setup, teardown, and failure screenshots
   runner/       JUnit Platform suite
   steps/        Cucumber step definitions
@@ -75,3 +76,8 @@ src/test/resources/
 
 JUnit Platform runs scenarios concurrently with a fixed pool of two workers. WebDriver state is isolated
 per worker thread.
+
+## Framework walkthrough
+
+See [Framework-Guide.pptx](Framework-Guide.pptx) for the framework architecture, adding tests, run and debug
+commands, browser/headless modes, parallel execution, reports, and execution evidence.

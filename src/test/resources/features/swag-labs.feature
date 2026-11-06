@@ -41,3 +41,28 @@ Feature: Swag Labs shopping workflows
     And I open the shopping cart
     And I check out as "Alex" "Tester" with postal code "12345"
     Then I should see the order confirmation
+
+  @mytest1
+  Scenario: Validate the inventory item details
+    Given I open Swag Labs
+    When I log in to Swag Labs as "standard_user" with password "secret_sauce"
+    And I remember the first inventory item
+    And I open the details for the remembered item
+    Then the product details should match the remembered item
+
+  @regression
+  Scenario: Add the remembered inventory item to the cart
+    Given I open Swag Labs
+    When I log in to Swag Labs as "standard_user" with password "secret_sauce"
+    And I remember the first inventory item
+    And I add the remembered item to the cart
+    And I open the shopping cart
+    Then the cart should contain the remembered item
+
+  @regression
+  Scenario: Keep the inventory count after sorting
+    Given I open Swag Labs
+    When I log in to Swag Labs as "standard_user" with password "secret_sauce"
+    And I remember the inventory count
+    And I sort inventory by price from low to high
+    Then the inventory should contain the remembered number of products

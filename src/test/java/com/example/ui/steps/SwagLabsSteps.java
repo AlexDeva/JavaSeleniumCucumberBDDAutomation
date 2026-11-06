@@ -1,5 +1,6 @@
 package com.example.ui.steps;
 
+import com.example.ui.context.ScenarioContext;
 import com.example.ui.pages.SwagLabsPage;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
@@ -10,10 +11,15 @@ import org.junit.jupiter.api.Assertions;
 import java.util.List;
 
 public class SwagLabsSteps {
-    private final SwagLabsPage swagLabsPage;
+    private static final String REMEMBERED_PRODUCT = "rememberedProduct";
+    private static final String REMEMBERED_INVENTORY_COUNT = "rememberedInventoryCount";
 
-    public SwagLabsSteps(SwagLabsPage swagLabsPage) {
+    private final SwagLabsPage swagLabsPage;
+    private final ScenarioContext scenarioContext;
+
+    public SwagLabsSteps(SwagLabsPage swagLabsPage, ScenarioContext scenarioContext) {
         this.swagLabsPage = swagLabsPage;
+        this.scenarioContext = scenarioContext;
     }
 
     @Given("I open Swag Labs")
@@ -46,6 +52,45 @@ public class SwagLabsSteps {
     @Then("the first inventory item should be {string}")
     public void verifyFirstInventoryItem(String productName) {
         Assertions.assertEquals(productName, swagLabsPage.firstInventoryItemName());
+    }
+
+    @When("I remember the first inventory item")
+    public void rememberFirstInventoryItem() {
+        scenarioContext.set(REMEMBERED_PRODUCT, swagLabsPage.firstInventoryItemName());
+    }
+
+    @When("I open the details for the remembered item")
+    public void openDetailsForRememberedItem() {
+        swagLabsPage.openItemDetails(scenarioContext.get(REMEMBERED_PRODUCT, String.class));
+    }
+
+    @Then("the product details should match the remembered item")
+    public void verifyProductDetailsMatchRememberedItem() {
+        Assertions.assertEquals(scenarioContext.get(REMEMBERED_PRODUCT, String.class),
+                swagLabsPage.itemDetailsName());
+    }
+
+    @When("I add the remembered item to the cart")
+    public void addRememberedItemToCart() {
+        swagLabsPage.addToCart(scenarioContext.get(REMEMBERED_PRODUCT, String.class));
+    }
+
+    @Then("the cart should contain the remembered item")
+    public void verifyCartContainsRememberedItem() {
+        Assertions.assertTrue(
+                swagLabsPage.cartItemNames().contains(scenarioContext.get(REMEMBERED_PRODUCT, String.class)),
+                "The cart should contain the product remembered from the inventory");
+    }
+
+    @When("I remember the inventory count")
+    public void rememberInventoryCount() {
+        scenarioContext.set(REMEMBERED_INVENTORY_COUNT, swagLabsPage.inventoryCount());
+    }
+
+    @Then("the inventory should contain the remembered number of products")
+    public void verifyInventoryCountMatchesRememberedCount() {
+        Assertions.assertEquals(scenarioContext.get(REMEMBERED_INVENTORY_COUNT, Integer.class),
+                swagLabsPage.inventoryCount());
     }
 
     @When("I add the following products to the cart:")

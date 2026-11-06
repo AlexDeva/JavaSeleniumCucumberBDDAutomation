@@ -13,7 +13,7 @@ public class PlaygroundPage extends BasePage {
     private static final By GREEN_BUTTON = By.id("greenButton");
     private static final By OBSTRUCTED_BUTTON = By.id("badButton");
     private static final By HIDING_BUTTON = By.id("hidingButton");
-
+    
     public void openPage(String page) {
         String path = switch (page) {
             case "Dynamic ID" -> "/dynamicid";

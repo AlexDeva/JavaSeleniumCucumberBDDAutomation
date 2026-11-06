@@ -58,4 +58,5 @@ public final class FrameworkConfig {
             throw new UncheckedIOException("Could not load " + CONFIG_FILE, exception);
         }
     }
+
 }

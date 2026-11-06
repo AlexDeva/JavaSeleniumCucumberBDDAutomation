@@ -17,6 +17,7 @@ public class SwagLabsPage extends BasePage {
     private static final By INVENTORY_ITEM = By.className("inventory_item");
     private static final By INVENTORY_ITEM_NAME = By.className("inventory_item_name");
     private static final By INVENTORY_ITEM_PRICE = By.className("inventory_item_price");
+    private static final By ITEM_DETAILS_NAME = By.className("inventory_details_name");
     private static final By SORT_CONTROL = By.className("product_sort_container");
     private static final By CART_LINK = By.className("shopping_cart_link");
     private static final By CART_BADGE = By.className("shopping_cart_badge");
@@ -70,6 +71,17 @@ public class SwagLabsPage extends BasePage {
 
     public String firstInventoryItemName() {
         return driver().findElements(INVENTORY_ITEM_NAME).get(0).getText().trim();
+    }
+
+    public void openItemDetails(String productName) {
+        By productLink = By.xpath("//div[contains(@class,'inventory_item')]" +
+                "[.//div[contains(@class,'inventory_item_name') and normalize-space()='" + productName + "']]" +
+                "//a");
+        click(productLink);
+    }
+
+    public String itemDetailsName() {
+        return text(ITEM_DETAILS_NAME);
     }
 
     public void addToCart(String productName) {
